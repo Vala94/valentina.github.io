@@ -1,0 +1,764 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>УБрИР. Создание компонента поля ввода</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="489ba39c-6ab7-4c01-8f8f-2c95de627fe8" class="page sans"><header><h1 class="page-title" dir="auto">УБрИР. Создание компонента поля ввода</h1><p class="page-description" dir="auto"></p><table class="properties"><tbody><tr class="property-row property-row-file"><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Обложка</th><td><span style="margin-inline-end:6px"><a href="../707.png"><img style="width:20px;max-height:24px" src="../707.png" alt="707.png"/></a></span></td></tr></tbody></table></header><div class="page-body"><div style="display:contents" dir="auto"><div id="c10254e2-5f4b-4ca8-8f60-a232a98fb354" class="column-list"><div style="display:contents" dir="auto"><div id="c8dd517d-fc46-4006-b679-1daad8e60fae" style="width:18.75%" class="column"><div style="display:contents" dir="auto"><p id="8ceeb89b-74a6-4402-8024-6a4bdf713b55" class=""><mark class="highlight-gray">Задача</mark> </p></div><div style="display:contents" dir="auto"><p id="5547024b-49e7-4b18-8986-4e654c769232" class="">
+</p></div></div></div><div style="display:contents" dir="auto"><div id="137ba7d8-1271-4c09-98bb-2aaec5b8092a" style="width:81.25%" class="column"><div style="display:contents" dir="auto"><ol type="1" id="2718de56-862e-44c9-b1c6-5faa83ade23c" class="numbered-list" start="1"><li>Разработать поле ввода с актуальным поведением</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d1a4b67d-fa6c-4243-830f-4b8900b58ad1" class="numbered-list" start="2"><li>Собрать компонент с использованием последних обновлений Figma</li></ol></div></div></div></div></div><div style="display:contents" dir="auto"><div id="6517cd48-daa3-488d-8d09-919665ffdc82" class="column-list"><div style="display:contents" dir="auto"><div id="eb44d8c7-44ea-40da-b133-392f66fe26be" style="width:18.75%" class="column"><div style="display:contents" dir="auto"><p id="fdc09d66-be2c-4652-9c07-c2fdec07cf51" class=""><mark class="highlight-gray">Проблема</mark></p></div></div></div><div style="display:contents" dir="auto"><div id="6d74c119-3734-44f3-a21d-b483fb1ed17c" style="width:81.25%" class="column"><div style="display:contents" dir="auto"><ol type="1" id="4af492a2-a2fb-4456-b484-976dd5b2cc2b" class="numbered-list" start="1"><li>Старые поля ввода не отвечают современным тенденциям в отображении ошибок и подсказок</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2bc9cc5a-19e4-4d04-883e-f04681d9b33c" class="numbered-list" start="2"><li>Разное поведение в зависимости от сценария </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9401621a-66b6-4e0d-bbf5-95dfd6cd18bf" class="numbered-list" start="3"><li>Компонент собран устаревшим способом и постоянно ломается</li></ol></div></div></div></div></div><div style="display:contents" dir="auto"><div id="dc8acf96-527d-46ed-8af5-d95a6d9ea3c6" class="column-list"><div style="display:contents" dir="auto"><div id="96c3f985-44da-4122-964d-7671c478add4" style="width:18.75%" class="column"><div style="display:contents" dir="auto"><p id="89928f0d-c28d-4b24-bcc0-6c42df20ac88" class=""><mark class="highlight-gray">Решение</mark></p></div></div></div><div style="display:contents" dir="auto"><div id="ee2a3d39-3f14-4d8f-9cbf-1752f4a12789" style="width:81.25%" class="column"><div style="display:contents" dir="auto"><p id="23265a86-e91b-4ee7-b380-aa1ecc96453e" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><ol type="1" id="6827c2d1-1846-40ea-a54a-8b39e586e1ae" class="numbered-list" start="1"><li>Провела ресёрч конкурентов по работе полей ввода </li></ol></div><div style="display:contents" dir="ltr"><figure id="207393ad-411c-4c0d-b38f-a014a0983d91" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/MacBook_Pro_-_9.png"><img style="width:1440px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/MacBook_Pro_-_9.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="9c334eac-6f47-49e3-aaed-225707c9b018" class="">
+</p></div><div style="display:contents" dir="auto"><p id="4c3496dd-352f-48fa-8fc0-9db659f1bbf9" class="">
+</p></div><div style="display:contents" dir="auto"><ol type="1" id="5a2c3cf1-6a01-463e-87b3-33fa562965c1" class="numbered-list" start="2"><li>Проанализировала все сценарии и составила схему с видами полей</li></ol></div><div style="display:contents" dir="ltr"><figure id="ac396935-a076-4b53-87dd-9baf8d0d9363" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/Frame_881231797.png"><img style="width:1952px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/Frame_881231797.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="db616ac1-d143-4f44-9c66-5404935ed5c7" class="">
+</p></div><div style="display:contents" dir="auto"><p id="6b6cec72-8896-4142-8a3b-0ed59a68b3dd" class="">
+</p></div><div style="display:contents" dir="auto"><ol type="1" id="13aa57d0-58fe-4990-9147-95b0193f235f" class="numbered-list" start="3"><li>Собрала стандартные поля ввода в единый компонент с помощью instance swap. При создании компонента использовала атомарный подход. Договорилась с разработчиками использовать единый нейминг по принципу camelCase. </li></ol></div><div style="display:contents" dir="ltr"><figure id="34ed363f-8816-4b0b-b281-09e9a6e3c8bf" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/Frame_881231798.png"><img style="width:5212px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/Frame_881231798.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="6f087427-1ab4-43e3-b081-a0171b9f2447" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="0f92b2da-ab07-4989-8713-c297d40858e8" class="">Посмотрим настройку компонента</h3></div><div style="display:contents" dir="auto"><p id="c01eb9de-3d63-4980-ba61-d958e238a29a" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="ab8ad3b5-37bd-4b8e-a068-2cfecfe97c76" class="bulleted-list"><li style="list-style-type:disc">Первая настройка позволяет выбрать тип поля. Рассмотрим далее все на примере текстового типа поля</li></ul></div><div style="display:contents" dir="ltr"><figure id="9f84d09c-db19-4671-b1ea-91481632dc65" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/2.png"><img style="width:1121px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/2.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="a43eb5e0-8b8d-4ee2-b71b-0fbab704b19f" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="17a45bdb-6d6f-4c6d-906c-43b6d68fc500" class="bulleted-list"><li style="list-style-type:disc">Настройка bottomPart позволяет отключать нижнюю часть компонента</li></ul></div><div style="display:contents" dir="ltr"><figure id="fa6e9983-21be-469c-89ab-90b8211fa1c2" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/14.png"><img style="width:1121px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/14.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="d6b544b8-fa7c-44ac-91c4-e6af8e94d53f" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="805fad86-ff40-4ffb-aad4-3f6e5f9590fb" class="bulleted-list"><li style="list-style-type:disc">Настройка state позволяет выбрать состояние поля. Она находится в группе настроек верхней части компонента topPartText, приставка Text говорит о том, что это текстовый тип поля</li></ul></div><div style="display:contents" dir="ltr"><figure id="754894c0-7643-456c-bdc6-d368317bfc8f" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/15.png"><img style="width:1121px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/15.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="5171218e-6ba9-4597-a68e-d54b0f3b576e" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="9ac53b67-e1f8-4f59-b77d-b7572434ef09" class="bulleted-list"><li style="list-style-type:disc">Настройка error включает состояние ошибки</li></ul></div><div style="display:contents" dir="ltr"><figure id="34174ceb-0042-42a7-ba5d-749564efc159" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/16.png"><img style="width:1121px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/16.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="786bf9d7-480b-44d0-9184-e24b753f4a30" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="da491a0f-7039-4a5e-ac3e-41217b0467e3" class="bulleted-list"><li style="list-style-type:disc">Настройка icon включает иконку. При включении настройки ниже появляется дополнительная группа rightPart с настройкой иконки</li></ul></div><div style="display:contents" dir="ltr"><figure id="a8329337-75bc-44fe-97b4-384e16a4fa3e" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/17.png"><img style="width:1121px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/17.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="b645727d-3c03-4be8-91d5-d9b4b93c2520" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="4b1da5da-4c8e-413f-84cd-920f224cf258" class="bulleted-list"><li style="list-style-type:disc">В группе bottomPart находится настройка type для выбора типа нижней части компонента</li></ul></div><div style="display:contents" dir="ltr"><figure id="7c315ade-f086-4ed9-aa8a-c719e37180e2" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/18.png"><img style="width:1121px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/18.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="4526afeb-7183-4091-8cb1-dd2d02e3b043" class="">
+</p></div><div style="display:contents" dir="auto"><p id="17248599-be65-47cf-acd9-0800aa130e6e" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="f9faddc5-9257-4a1d-a018-f689666e22ba" class="">Аналогичным образом я собрала кастомные типы полей:</h3></div><div style="display:contents" dir="auto"><p id="4d384a1c-e43f-4612-882a-4db99e71f1ef" class="">
+</p></div><div style="display:contents" dir="auto"><ol type="1" id="10e2da11-fc9f-49c7-9ce2-4df601e87169" class="numbered-list" start="1"><li>Поле с номером карты</li></ol></div><div style="display:contents" dir="ltr"><figure id="9ed3e308-687b-416a-a4d3-5ba8d7a5c6e6" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/19.png"><img style="width:4415px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/19.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="bc8825bd-064d-482d-b3c7-5647ab587855" class="">
+</p></div><div style="display:contents" dir="auto"><ol type="1" id="dd99852a-411c-4515-ba77-6b0909723e8b" class="numbered-list" start="2"><li>Поле для обмена валюты</li></ol></div><div style="display:contents" dir="ltr"><figure id="203f1b04-90bb-49e9-8bb8-f74442decf59" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/20.png"><img style="width:3330px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/20.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="e4e5e207-3a97-4993-a54d-74a922f4d49b" class="">
+</p></div><div style="display:contents" dir="auto"><ol type="1" id="e0e67621-2353-4843-a884-c8a8f6156408" class="numbered-list" start="3"><li>Поле с паролем</li></ol></div><div style="display:contents" dir="ltr"><figure id="e37adad1-f54f-471f-992d-735ee24e09da" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/21.png"><img style="width:4457px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/21.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="f4fe1c64-6d69-474f-b041-4f182c8d01b4" class="">
+</p></div><div style="display:contents" dir="auto"><ol type="1" id="fc940277-d279-4fc3-93dc-fc514581ee00" class="numbered-list" start="4"><li>Поле с выбором даты</li></ol></div><div style="display:contents" dir="ltr"><figure id="095dcffc-a5ad-4de9-8f2d-5b34a06ec43b" class="image"><a href="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/22.png"><img style="width:4165px" src="%D0%A3%D0%91%D1%80%D0%98%D0%A0%20%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D0%B0%20%D0%BF%D0%BE%D0%BB%D1%8F%20%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0/22.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="2eb58300-ee27-4ffa-a304-34b55cb690a7" class="">
+</p></div><div style="display:contents" dir="auto"><h2 id="3618c295-4b90-4528-9dbe-8e85cb211d8e" class="">Поведение полей ввода</h2></div><div style="display:contents" dir="auto"><p id="60a89f21-3297-4740-89d3-9d24bc86adaa" class="">
+</p></div><div style="display:contents" dir="auto"><p id="4c68af88-e51e-437e-9c1d-72e4b973ffe5" class="">Я написала 8 принципов поведения полей:</p></div><div style="display:contents" dir="auto"><ol type="1" id="e4bb0f32-144f-454d-8b75-00d6b25268ec" class="numbered-list" start="1"><li>Используем мгновенную валидацию при заполнении заведомо неверных значений<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-15009&amp;viewport=-4102%2C12022%2C0.26&amp;t=k1l0qmZxOgquxAyp-1&amp;scaling=scale-down&amp;mode=design">Прототип</a> </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="81b699ed-ce24-4135-b8c0-abee10349129" class="numbered-list" start="2"><li>При потере фокуса не валидируем поле на пустоту<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-14751&amp;viewport=-4292%2C12319%2C0.27&amp;t=ndwvPCGkSEktQsux-1&amp;scaling=scale-down&amp;mode=design">Прототип</a></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="56571b63-c977-444e-8e97-ea8e5e115724" class="numbered-list" start="3"><li>Используем валидацию при смене фокуса по формату значения (например по количеству символов)<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-14763&amp;viewport=-5208%2C14037%2C0.33&amp;t=FlahCDG52PQqEEe7-1&amp;scaling=scale-down&amp;mode=design">Прототип </a></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="372089bc-fb4f-49ba-bcdd-013f24c370c2" class="numbered-list" start="4"><li>Используем валидацию при отправке формы когда нельзя проверить поля при потере фокуса<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-15252&amp;viewport=-5944%2C15526%2C0.38&amp;t=SYdc7h7fjiOLjcve-1&amp;scaling=scale-down&amp;mode=design">Прототип</a> </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="419af863-2ecd-4d48-88ee-484fed56b8fd" class="numbered-list" start="5"><li>При отправке формы осуществлять прокрутку к первому полю с ошибкой. Если поле оказалось не заполненным, не нужно выводить подсказку, а достаточно подсветить само поле<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-15269&amp;viewport=-6680%2C16381%2C0.42&amp;t=5SSmAC2NbCs0FuSu-1&amp;scaling=scale-down&amp;mode=design">Прототип </a></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="117b3f78-05d1-4fc5-975c-7addae05a73a" class="numbered-list" start="6"><li>При отправке формы выводим состояние ошибки для поля без подстрочника. Кнопка для отправки формы всегда в стоянии нормал (не дизейблим)<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-15025&amp;viewport=-3436%2C8288%2C0.22&amp;t=2uTkWoZigj4wtHAW-1&amp;scaling=scale-down&amp;mode=design">Прототип </a></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="7ba8dece-4063-4e24-b1c1-6ad919722dca" class="numbered-list" start="7"><li>Когда начинаешь исправлять что-то в поле ввода с него уходит состояние ошибки<br/><a href="https://www.figma.com/proto/InzCiJGk8SbfRTMpxbj1io/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE?page-id=0%3A1&amp;type=design&amp;node-id=1-14775&amp;viewport=-4963%2C11271%2C0.32&amp;t=qX3lhNbLpMmcyj9K-1&amp;scaling=scale-down&amp;mode=design">Прототип </a></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d4d58a7e-8e1e-4ee7-8d79-6b45eab4ecf6" class="numbered-list" start="8"><li>Ограничить ввод неподходящих символов. Если в поле нужно вводить только цифры, и это очевидно пользователю, нужно игнорировать ввод букв (вывод нужной клавиатуры)<br/></li></ol></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
